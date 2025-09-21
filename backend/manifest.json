@@ -1,0 +1,24 @@
+{
+    "manifest_version": 3,
+    "name": "Semantic Link Classifier",
+    "version": "1.0",
+    "description": "Classifies website links as Correct, Wrong, or Unknown.",
+    "permissions": [
+      "activeTab",
+      "scripting",
+      "tabs"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "action": {
+      "default_popup": "popup.html"
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"]
+      }
+    ]
+  }
+  

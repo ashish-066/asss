@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer System Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+        .test-result { margin: 10px 0; padding: 10px; border-radius: 4px; }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        button { padding: 10px 20px; margin: 5px; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-primary { background-color: #007bff; color: white; }
+        .btn-success { background-color: #28a745; color: white; }
+        .btn-danger { background-color: #dc3545; color: white; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Volunteer System Test</h1>
+    <p>This page tests the volunteer saving and loading system step by step.</p>
+
+    <div class="test-section">
+        <h3>Step 1: Test Extension Communication</h3>
+        <button class="btn-primary" onclick="testExtensionCommunication()">Test Background Script</button>
+        <div id="communication-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Step 2: Test Volunteer Count</h3>
+        <button class="btn-primary" onclick="testVolunteerCount()">Check Volunteer Count</button>
+        <div id="volunteer-count-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Step 3: Test Storage</h3>
+        <button class="btn-primary" onclick="testStorage()">Check Storage</button>
+        <div id="storage-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Step 4: Test Storage Save</h3>
+        <button class="btn-primary" onclick="testStorageSave()">Save Test Volunteer</button>
+        <div id="storage-save-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Step 5: Test OTP Request</h3>
+        <button class="btn-success" onclick="testOTPRequest()">Request OTP</button>
+        <div id="otp-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Instructions</h3>
+        <ol>
+            <li>Click "Test Background Script" - should show success</li>
+            <li>Click "Check Volunteer Count" - should show count > 0</li>
+            <li>Click "Check Storage" - should show volunteers in storage</li>
+            <li>Click "Request OTP" - should generate OTP successfully</li>
+        </ol>
+    </div>
+
+    <script>
+        function addResult(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="test-result ${type}">${message}</div>`;
+        }
+
+        async function testExtensionCommunication() {
+            try {
+                const response = await chrome.runtime.sendMessage({ type: 'test' });
+                if (response && response.success) {
+                    addResult('communication-result', '✅ Background script is working!', 'success');
+                } else {
+                    addResult('communication-result', '❌ Background script not responding', 'error');
+                }
+            } catch (error) {
+                addResult('communication-result', `❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testVolunteerCount() {
+            try {
+                const response = await chrome.runtime.sendMessage({ type: 'getVolunteerCount' });
+                if (response && response.success) {
+                    addResult('volunteer-count-result', 
+                        `✅ Found ${response.count} volunteers: ${response.volunteers.map(v => v.name).join(', ')}`, 
+                        'success');
+                } else {
+                    addResult('volunteer-count-result', '❌ Failed to get volunteer count', 'error');
+                }
+            } catch (error) {
+                addResult('volunteer-count-result', `❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testStorage() {
+            try {
+                const response = await chrome.runtime.sendMessage({ type: 'checkStorage' });
+                if (response && response.success) {
+                    const data = response.data;
+                    const volunteers = data.volunteers || [];
+                    addResult('storage-result', 
+                        `✅ Storage contains ${volunteers.length} volunteers: ${volunteers.map(v => v.name).join(', ')}`, 
+                        'success');
+                } else {
+                    addResult('storage-result', `❌ Storage check failed: ${response.error}`, 'error');
+                }
+            } catch (error) {
+                addResult('storage-result', `❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testStorageSave() {
+            try {
+                const response = await chrome.runtime.sendMessage({ type: 'saveTestVolunteer' });
+                if (response && response.success) {
+                    addResult('storage-save-result', 
+                        `✅ Test volunteer saved successfully! Name: ${response.volunteer.name}`, 
+                        'success');
+                } else {
+                    addResult('storage-save-result', `❌ Storage save failed: ${response.error}`, 'error');
+                }
+            } catch (error) {
+                addResult('storage-save-result', `❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testOTPRequest() {
+            try {
+                const response = await chrome.runtime.sendMessage({ 
+                    type: 'requestOTP', 
+                    url: 'https://test.com', 
+                    reason: 'Test OTP request' 
+                });
+                if (response && response.success) {
+                    addResult('otp-result', 
+                        `✅ OTP generated successfully! ${response.message}`, 
+                        'success');
+                } else {
+                    addResult('otp-result', `❌ OTP request failed: ${response.error}`, 'error');
+                }
+            } catch (error) {
+                addResult('otp-result', `❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Auto-run tests on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                testExtensionCommunication();
+                setTimeout(() => testVolunteerCount(), 500);
+                setTimeout(() => testStorage(), 1000);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
