@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Safety Extension</title>
+  <style>
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      width: 400px; 
+      padding: 0; 
+      margin: 0;
+      background: #f5f5f5;
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #1976d2, #42a5f5);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .header h1 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    
+    .header p {
+      margin: 5px 0 0 0;
+      font-size: 12px;
+      opacity: 0.9;
+    }
+    
+    .tabs {
+      display: flex;
+      background: white;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .tab {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      background: white;
+      color: #666;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+    
+    .tab.active {
+      background: #1976d2;
+      color: white;
+    }
+    
+    .tab-content {
+      display: none;
+      padding: 20px;
+      background: white;
+      min-height: 300px;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .volunteer-item {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 10px;
+    }
+    
+    .volunteer-name {
+      font-weight: 600;
+      color: #1976d2;
+      margin-bottom: 5px;
+    }
+    
+    .volunteer-details {
+      font-size: 12px;
+      color: #666;
+    }
+    
+    .add-volunteer-form {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #333;
+      font-size: 14px;
+    }
+    
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    
+    .btn {
+      background: #1976d2;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    
+    .btn:hover {
+      background: #1565c0;
+    }
+    
+    .btn-danger {
+      background: #d32f2f;
+    }
+    
+    .btn-danger:hover {
+      background: #c62828;
+    }
+    
+    .btn-small {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .stat-card {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 24px;
+      font-weight: 600;
+      color: #1976d2;
+      margin-bottom: 5px;
+    }
+    
+    .stat-label {
+      font-size: 12px;
+      color: #666;
+    }
+    
+    .limit-info {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 15px;
+      font-size: 12px;
+      color: #856404;
+    }
+    
+    .empty-state {
+      text-align: center;
+      color: #666;
+      padding: 40px 20px;
+    }
+    
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 15px;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🛡️ Safety Extension</h1>
+    <p>OTP Authentication & Addiction Control</p>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" data-tab="volunteers">👥 Volunteers</button>
+    <button class="tab" data-tab="limits">📊 Limits</button>
+    <button class="tab" data-tab="settings">⚙️ Settings</button>
+  </div>
+  
+  <div id="volunteers-tab" class="tab-content active">
+    <h3>Manage Volunteers</h3>
+    <p style="color: #666; font-size: 14px; margin-bottom: 20px;">
+      Add trusted people who can approve your access to blocked sites via OTP.
+    </p>
+    
+    <div class="add-volunteer-form">
+      <h4 style="margin-top: 0; color: #1976d2;">Add New Volunteer</h4>
+      <div class="form-group">
+        <label for="volunteer-name">Name</label>
+        <input type="text" id="volunteer-name" placeholder="Enter volunteer's name">
+      </div>
+      <div class="form-group">
+        <label for="volunteer-phone">Phone Number</label>
+        <input type="tel" id="volunteer-phone" placeholder="+1234567890">
+      </div>
+      <div class="form-group">
+        <label for="volunteer-relationship">Relationship</label>
+        <select id="volunteer-relationship">
+          <option value="Friend">Friend</option>
+          <option value="Family">Family</option>
+          <option value="Partner">Partner</option>
+          <option value="Parent">Parent</option>
+          <option value="Sibling">Sibling</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <button class="btn" id="add-volunteer-btn">Add Volunteer</button>
+    </div>
+    
+    <div id="volunteers-list">
+      <div class="empty-state">
+        <div class="empty-state-icon">👥</div>
+        <p>No volunteers added yet</p>
+        <p style="font-size: 12px; color: #999;">Add a volunteer to enable OTP access</p>
+      </div>
+    </div>
+  </div>
+  
+  <div id="limits-tab" class="tab-content">
+    <h3>Daily Limits</h3>
+    <p style="color: #666; font-size: 14px; margin-bottom: 20px;">
+      Track your daily access to different types of websites.
+    </p>
+    
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number" id="adult-count">0</div>
+        <div class="stat-label">Adult Sites</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="piracy-count">0</div>
+        <div class="stat-label">Piracy Sites</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="gambling-count">0</div>
+        <div class="stat-label">Gambling Sites</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="social-count">0</div>
+        <div class="stat-label">Social Media</div>
+      </div>
+    </div>
+    
+    <div class="limit-info">
+      <strong>Daily Limits:</strong><br>
+      • Adult sites: 2 per day<br>
+      • Piracy sites: 1 per day<br>
+      • Gambling sites: 1 per day<br>
+      • Social media: 10 per day<br>
+      • General sites: 20 per day
+    </div>
+  </div>
+  
+  <div id="settings-tab" class="tab-content">
+    <h3>Settings</h3>
+    <p style="color: #666; font-size: 14px; margin-bottom: 20px;">
+      Configure your safety and authentication preferences.
+    </p>
+    
+    <div class="form-group">
+      <label>
+        <input type="checkbox" id="otp-enabled" checked> 
+        Enable OTP Authentication
+      </label>
+    </div>
+    
+    <div class="form-group">
+      <label>
+        <input type="checkbox" id="daily-limits-enabled" checked> 
+        Enable Daily Limits
+      </label>
+    </div>
+    
+    <div class="form-group">
+      <label>
+        <input type="checkbox" id="volunteer-required" checked> 
+        Require Volunteer Approval
+      </label>
+    </div>
+    
+    <div class="form-group">
+      <label for="otp-expiry">OTP Expiry Time (minutes)</label>
+      <select id="otp-expiry">
+        <option value="5">5 minutes</option>
+        <option value="10">10 minutes</option>
+        <option value="15">15 minutes</option>
+        <option value="30">30 minutes</option>
+      </select>
+    </div>
+    
+    <button class="btn" id="save-settings-btn">Save Settings</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

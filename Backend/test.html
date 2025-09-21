@@ -1,0 +1,98 @@
+❌ Error requesting OTP: Cannot read properties of undefined (reading 'success')
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extension Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-link {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #333;
+        }
+        .test-link:hover {
+            background: #e0e0e0;
+        }
+        .instructions {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Extension Test Page</h1>
+    
+    <div class="instructions">
+        <h3>Testing Instructions:</h3>
+        <ol>
+            <li>Make sure the extension is loaded and active</li>
+            <li>Click on the test links below</li>
+            <li>Check if symbols appear next to the links</li>
+            <li>Try clicking the "Request OTP Access" button</li>
+            <li>Check the browser console (F12) for debug messages</li>
+        </ol>
+    </div>
+
+    <h2>Test Links:</h2>
+    
+    <h3>Adult Content (Should be marked as Wrong):</h3>
+    <a href="https://pornhub.com" class="test-link">PornHub - Adult Content</a>
+    <a href="https://xhamster.com" class="test-link">XHamster - Adult Content</a>
+    
+    <h3>Piracy Sites (Should be marked as Wrong):</h3>
+    <a href="https://thepiratebay.org" class="test-link">The Pirate Bay - Piracy</a>
+    <a href="https://bappam.com.co" class="test-link">Bappam - Movie Piracy</a>
+    
+    <h3>Safe Sites (Should be marked as Correct):</h3>
+    <a href="https://wikipedia.org" class="test-link">Wikipedia - Safe</a>
+    <a href="https://github.com" class="test-link">GitHub - Safe</a>
+    
+    <h3>Unknown Sites (Should be marked as Unknown):</h3>
+    <a href="https://scrunchiezine.com/rummy-best/" class="test-link">Scrunchie Zine - Unknown</a>
+    <a href="https://example.com" class="test-link">Example.com - Unknown</a>
+
+    <div class="instructions">
+        <h3>Debug Console Messages to Look For:</h3>
+        <ul>
+            <li><code>🔗 Found X filtered links</code> - Extension is working</li>
+            <li><code>✅ Added ❌ to [URL]</code> - Links are being classified</li>
+            <li><code>🔐 Request OTP button clicked!</code> - Button click is working</li>
+            <li><code>🚀 requestOTPAccess function called</code> - Function is being called</li>
+            <li><code>📨 Background received message: requestOTP</code> - Message is reaching background</li>
+        </ul>
+    </div>
+
+    <script>
+        // Add some debug info
+        console.log('🧪 Test page loaded');
+        console.log('🔍 Looking for extension symbols...');
+        
+        // Check if extension is working
+        setTimeout(() => {
+            const symbols = document.querySelectorAll('.safety-symbol');
+            console.log(`🎯 Found ${symbols.length} safety symbols on page`);
+            
+            if (symbols.length === 0) {
+                console.warn('⚠️ No safety symbols found - extension might not be working');
+            } else {
+                console.log('✅ Extension appears to be working!');
+            }
+        }, 2000);
+    </script>
+</body>
+</html>
