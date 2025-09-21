@@ -1,0 +1,224 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - distractFree</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            background-color: #d9e5ef;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        .logo {
+            font-family: 'Georgia', serif;
+            font-size: 24px;
+            color: #4a6e8a;
+            font-weight: bold;
+            margin-left: 20px;
+        }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        .nav-item {
+            margin-left: 20px;
+            position: relative;
+            cursor: pointer;
+        }
+        .bell-icon {
+            font-size: 24px;
+            color: #4a6e8a;
+            position: relative;
+        }
+        .badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #e06c75;
+            color: white;
+            border-radius: 50%;
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+        .username {
+            color: #4a6e8a;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 24px;
+            background-color: #e8eff5;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #4a6e8a;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .profile {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background-color: #ccdbe8;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #5a8ab0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #f9fcff;
+            border: 1px solid #ccdbe8;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 24px;
+        }
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #ccdbe8;
+        }
+        th {
+            background-color: #e0eaf2;
+            color: #4a6e8a;
+        }
+        td {
+            color: #333;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .current-user {
+            background-color: #e0f0fa;
+            font-weight: bold;
+        }
+        .mode-btn {
+            display: block;
+            margin: 24px auto 0;
+            padding: 12px 24px;
+            background-color: #5a8ab0;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+        }
+        .mode-btn:hover {
+            background-color: #4a7a9a;
+        }
+        .current-mode {
+            text-align: center;
+            margin-top: 16px;
+            color: #4a6e8a;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">distractFree</div>
+        <div class="nav-right">
+            <div class="nav-item bell-icon" onclick="window.location.href='alerts.html';">
+                🔔
+                <span class="badge" id="alertCount">3</span>
+            </div>
+            <div class="nav-item username" id="userName"></div>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Welcome to Your Dashboard</h1>
+        <div class="profile">
+            <div class="avatar" id="avatar"></div>
+            <p>Hello, <span id="profileName"></span>!</p>
+        </div>
+        <table>
+            <tr>
+                <th>Rank</th>
+                <th>Username</th>
+                <th>Score</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>FocusMaster</td>
+                <td>95/100</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>ProductivePro</td>
+                <td>92/100</td>
+            </tr>
+            <tr class="current-user">
+                <td id="userRank">42</td>
+                <td><span id="currentUserName"></span></td>
+                <td id="userScore">85/100</td>
+            </tr>
+            <tr>
+                <td>43</td>
+                <td>ZenUser</td>
+                <td>84/100</td>
+            </tr>
+            <tr>
+                <td>44</td>
+                <td>StudyGuru</td>
+                <td>83/100</td>
+            </tr>
+        </table>
+        <a href="mode.html" class="mode-btn">Change Mode</a>
+        <div class="current-mode">Current Mode: <span id="currentMode">Normal Mode</span></div>
+    </div>
+    <script>
+        const username = localStorage.getItem('username') || 'vamsika';
+        document.getElementById('userName').textContent = username;
+        document.getElementById('profileName').textContent = username;
+        document.getElementById('currentUserName').textContent = username;
+        document.getElementById('avatar').textContent = username.charAt(0).toUpperCase();
+
+        // Mock rankings for different modes (scores as strings)
+        const rankings = {
+            'Study Mode': { rank: 35, score: '88/100' },
+            'Focus Mode': { rank: 42, score: '85/100' },
+            'Normal Mode': { rank: 50, score: '80/100' }
+        };
+
+        // Get current mode from localStorage or default to Normal Mode
+        let currentMode = localStorage.getItem('currentMode') || 'Normal Mode';
+        document.getElementById('currentMode').textContent = currentMode;
+
+        // Update ranking based on current mode
+        function updateRanking() {
+            const rankingData = rankings[currentMode];
+            document.getElementById('userRank').textContent = rankingData.rank;
+            document.getElementById('userScore').textContent = rankingData.score;
+        }
+        updateRanking();
+
+        // Simulate dynamic alert count (in real app, from backend)
+        const alertCount = 3; // Dummy
+        document.getElementById('alertCount').textContent = alertCount;
+    </script>
+</body>
+</html>

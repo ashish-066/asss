@@ -1,0 +1,133 @@
+<!-- alerts.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alerts - FocusGuard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            background-color: #d9e5ef;
+            padding: 16px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        .nav-item {
+            margin-left: 20px;
+            position: relative;
+            cursor: pointer;
+        }
+        .bell-icon {
+            font-size: 24px;
+            color: #4a6e8a;
+            position: relative;
+        }
+        .badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #e06c75;
+            color: white;
+            border-radius: 50%;
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+        .username {
+            color: #4a6e8a;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 24px;
+            background-color: #e8eff5;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #4a6e8a;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .alert-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .alert {
+            background-color: #f9fcff;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccdbe8;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .alert h4 {
+            margin: 0 0 8px;
+            color: #5a8ab0;
+        }
+        .alert p {
+            margin: 0;
+            color: #6a829a;
+        }
+        .back-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto 0;
+            padding: 12px;
+            background-color: #5a8ab0;
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .back-btn:hover {
+            background-color: #4a7a9a;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-item bell-icon" onclick="window.location.href='alerts.html';">
+            🔔
+            <span class="badge" id="alertCount">3</span>
+        </div>
+        <div class="nav-item username" id="userName"></div>
+    </nav>
+    <div class="container">
+        <h1>Your Alerts</h1>
+        <div class="alert-stack">
+            <div class="alert">
+                <h4>Phishing Attempt Blocked</h4>
+                <p>A suspicious site was blocked at 2:45 PM. Stay safe!</p>
+            </div>
+            <div class="alert">
+                <h4>Focus Mode Activated</h4>
+                <p>You switched to Study mode successfully at 10:30 AM.</p>
+            </div>
+            <div class="alert">
+                <h4>Daily Insight</h4>
+                <p>Your productivity score improved by 15% this week.</p>
+            </div>
+        </div>
+        <a href="dashboard.html" class="back-btn">Back to Dashboard</a>
+    </div>
+    <script>
+        const username = localStorage.getItem('username') || 'User';
+        document.getElementById('userName').textContent = username;
+
+        // Simulate dynamic alert count
+        const alertCount = 3; // Dummy
+        document.getElementById('alertCount').textContent = alertCount;
+    </script>
+</body>
+</html>

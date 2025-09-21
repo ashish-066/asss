@@ -1,0 +1,158 @@
+<!-- mode.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Mode - distractFree</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #e8eff5 0%, #f0f4f8 100%);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        nav {
+            background-color: #d9e5ef;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .logo {
+            font-family: 'Georgia', serif;
+            font-size: 24px;
+            color: #4a6e8a;
+            font-weight: bold;
+            margin-left: 20px;
+        }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        .nav-item {
+            margin-left: 20px;
+            position: relative;
+            cursor: pointer;
+        }
+        .bell-icon {
+            font-size: 24px;
+            color: #4a6e8a;
+            position: relative;
+        }
+        .badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #e06c75;
+            color: white;
+            border-radius: 50%;
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+        .username {
+            color: #4a6e8a;
+            font-weight: bold;
+        }
+        .mode-container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 800px;
+        }
+        h2 {
+            color: #4a6e8a;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        .mode-cards {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: nowrap;
+            align-items: center;
+        }
+        .mode-card {
+            background: #f9fcff;
+            border: 1px solid #ccdbe8;
+            border-radius: 10px;
+            padding: 20px;
+            width: 200px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+        .mode-card:hover {
+            transform: scale(1.05);
+            background-color: #e8f0f7;
+        }
+        .mode-card h3 {
+            color: #5a8ab0;
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        .mode-card p {
+            color: #6a829a;
+            font-size: 14px;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">distractFree</div>
+        <div class="nav-right">
+            <div class="nav-item bell-icon" onclick="window.location.href='alerts.html';">
+                🔔
+                <span class="badge" id="alertCount">3</span>
+            </div>
+            <div class="nav-item username" id="userName"></div>
+        </div>
+    </nav>
+    <div class="mode-container">
+        <h2>Select Your Mode</h2>
+        <div class="mode-cards">
+            <div class="mode-card" onclick="setMode('Study Mode')">
+                <h3>Study Mode</h3>
+                <p>Enhance focus for learning.</p>
+            </div>
+            <div class="mode-card" onclick="setMode('Focus Mode')">
+                <h3>Focus Mode</h3>
+                <p>Maximize productivity.</p>
+            </div>
+            <div class="mode-card" onclick="setMode('Normal Mode')">
+                <h3>Normal Mode</h3>
+                <p>Balanced browsing experience.</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        const username = localStorage.getItem('username') || 'vamsika';
+        document.getElementById('userName').textContent = username;
+
+        // Function to set the selected mode and redirect to dashboard
+        function setMode(mode) {
+            localStorage.setItem('currentMode', mode);
+            window.location.href = 'dashboard.html';
+        }
+
+        // Simulate dynamic alert count (in real app, from backend)
+        const alertCount = 3; // Dummy
+        document.getElementById('alertCount').textContent = alertCount;
+    </script>
+</body>
+</html>
